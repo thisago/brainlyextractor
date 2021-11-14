@@ -2,18 +2,12 @@
 
 from std/httpclient import newAsyncHttpClient, getContent, close, newHttpHeaders
 import std/asyncdispatch
-from std/strutils import strip, parseInt
+from std/strutils import parseInt
+from std/xmltree import XmlNode, kind, xnElement
 
-from std/htmlparser import parseHtml
-from std/xmltree import findAll, innerText, `[]`, XmlNode, attr, items,
-                        xnElement, kind
-
-from pkg/findxml/findAll import findAll
+from pkg/scraper/html import findAll, text, attr, parseHtml
 
 from brainlyextractor/base import userAgent
-
-when not defined release:
-  from std/xmltree import `$`
 
 type
   Question* = object
@@ -32,17 +26,6 @@ type
     author*, avatar*: string
     body*: string
     comments*: seq[Comment]
-
-func text(node: XmlNode): string =
-  strip innerText node
-
-func text(nodes: seq[XmlNode]): string =
-  if nodes.len > 0:
-    result = nodes[0].text
-
-func attr(nodes: seq[XmlNode]; name: string): string =
-  if nodes.len > 0:
-    result = nodes[0].attr name
 
 func extractComment(node: XmlNode): Comment =
   result.body = node.findAll("div", {"class": "sg-text sg-text--small sg-text--break-words"}).text
