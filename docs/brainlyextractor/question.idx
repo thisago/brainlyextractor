@@ -1,4 +1,0 @@
-Question	brainlyextractor/question.html#Question	question: Question	
-Comment	brainlyextractor/question.html#Comment	question: Comment	
-Answer	brainlyextractor/question.html#Answer	question: Answer	
-getQuestion	brainlyextractor/question.html#getQuestion,string	question: getQuestion(url: string): Future[Question]	

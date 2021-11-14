@@ -4,5 +4,4 @@
 
 - Removed `chttpclient` dependency
 - Added `scraper` dependency
-- Generated docs
 - Added changelog
