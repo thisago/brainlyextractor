@@ -53,11 +53,13 @@ func extractAnswer(node: XmlNode): Answer =
 proc getQuestion*(url: string): Future[Question] {.async.} =
   ## Update the `Question` by parsing the Brainly page
   result.url = url
-  let client = newAsyncHttpClient(headers = newHttpHeaders({
-    "User-Agent": userAgent,
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-  }))
-  let html = parseHtml await client.getContent(url)
+  let
+    client = newAsyncHttpClient(headers = newHttpHeaders({
+      "User-Agent": userAgent,
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    }))
+    html = parseHtml await client.getContent(url)
+  close client
 
   block questionBox:
     let qbox = html.findAll("div", {"class": "brn-qpage-next-question-box"})[0]

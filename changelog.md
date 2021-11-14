@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.1.2 (11/14/2021)
+
+- Closing httpclient
+
+---
+
 ## Version 0.1.1 (11/14/2021)
 
 - Removed `chttpclient` dependency
