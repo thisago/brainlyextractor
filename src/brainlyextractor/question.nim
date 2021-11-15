@@ -6,6 +6,7 @@ from std/strutils import parseInt
 from std/xmltree import XmlNode, kind, xnElement
 
 from pkg/scraper/html import findAll, text, attr, parseHtml
+from pkg/useragent import mozilla
 
 from brainlyextractor/base import userAgent
 
@@ -55,7 +56,7 @@ proc getQuestion*(url: string): Future[Question] {.async.} =
   result.url = url
   let
     client = newAsyncHttpClient(headers = newHttpHeaders({
-      "User-Agent": userAgent,
+      "User-Agent": mozilla,
       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     }))
     html = parseHtml await client.getContent(url)

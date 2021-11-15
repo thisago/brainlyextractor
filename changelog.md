@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.1.3 (11/14/2021)
+
+- Using external lib to get user agent
+
+---
+
 ## Version 0.1.2 (11/14/2021)
 
 - Closing httpclient
