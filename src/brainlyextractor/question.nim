@@ -24,6 +24,7 @@ type
   Answer* = object
     author*, avatar*: string
     body*: string
+    attachments*: seq[string]
     comments*: seq[Comment]
 
 func extractComment(node: XmlNode): Comment =
@@ -44,10 +45,15 @@ func extractAnswer(node: XmlNode): Answer =
       if result.body.len > 0:
         result.body.add "\l"
       result.body.add p.text
+  block attachements:
+    for attachement in node.findAll("div", {"class":"brn-qpage-next-attachments-viewer-image-preview"}):
+      let img = attachement.findAll("img").attr "src"
+      if img.len > 0:
+        result.attachments.add img
+        continue
   block comments:
     for comment in node.findAll("li", {"class": "brn-qpage-next-comments__list-item"}):
       result.comments.add extractComment comment
-
 
 proc getQuestion*(url: string): Future[Question] {.async.} =
   ## Update the `Question` by parsing the Brainly page
