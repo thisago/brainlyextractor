@@ -8,8 +8,6 @@ from std/xmltree import XmlNode, kind, xnElement
 from pkg/scraper/html import findAll, text, attr, parseHtml
 from pkg/useragent import mozilla
 
-from brainlyextractor/base import userAgent
-
 type
   Question* = object
     url*: string
