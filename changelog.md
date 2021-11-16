@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.2.2 (11/16/2021)
+
+- Fixed verified answer extraction
+
+---
+
 ## Version 0.2.1 (11/16/2021)
 
 - Fixed answer text extraction

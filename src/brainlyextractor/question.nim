@@ -2,7 +2,7 @@
 
 from std/httpclient import newAsyncHttpClient, getContent, close, newHttpHeaders
 import std/asyncdispatch
-from std/strutils import parseInt
+from std/strutils import parseInt, contains
 from std/xmltree import XmlNode, kind, xnElement, items
 
 from pkg/scraper/html import findAll, text, attr, parseHtml
@@ -33,17 +33,23 @@ func extractComment(node: XmlNode): Comment =
   result.author = img.attr "title"
   result.avatar = img.attr "src"
 
+from std/xmltree import `$`
+
 func extractAnswer(node: XmlNode): Answer =
-  let data = node.findAll("div", @{"class": "brn-qpage-next-answer-box-author"})[0]
+  let d = node.findAll("div", @{"class": "brn-qpage-next-answer-box-author"})
+  if d.len == 0:
+    return
+  let data = d[0]
+
   result.avatar = data.findAll("img", {"class": "sg-avatar__image"}).attr "src"
   result.author = data.findAll("span", {"class": "sg-hide-for-small-only sg-text--small sg-text sg-text--link sg-text--bold sg-text--black"}).text
   block resp:
     let el = node.findAll("div", {"class": "sg-text sg-text--break-words brn-rich-content js-answer-content"})[0]
-    for p in el:
-      if p.kind != xnElement: continue
+    for txtNode in el:
+      if txtNode.kind != xnElement: continue
       if result.body.len > 0:
         result.body.add "\l"
-      result.body.add p.text
+      result.body.add txtNode.text
   block attachements:
     for attachement in node.findAll("div", {"class":"brn-qpage-next-attachments-viewer-image-preview"}):
       let img = attachement.findAll("img").attr "src"
@@ -89,8 +95,12 @@ proc getQuestion*(url: string): Future[Question] {.async.} =
         result.comments.add extractComment el
 
   block answers:
-    for el in html.findAll("div", {"class": "brn-qpage-next-answer-box js-answer"}):
-      result.answers.add extractAnswer el
+    for el in html.findAll "div":
+      let class = el.attr "class"
+      if "brn-qpage-next-answer-box" in class and "js-answer" in class:
+        let answer = extractAnswer el
+        if answer.body.len > 0:
+          result.answers.add answer
 
 when isMainModule:
   import std/[json, jsonutils]
@@ -99,6 +109,6 @@ when isMainModule:
   # const url = "https://brainly.com.br/tarefa/36901808"
   # const url = "https://brainly.lat/tarea/56119687"
   # const url = "https://brainly.ro/tema/7413901"
-  const url = "https://brainly.com.br/tarefa/49714712"
+  const url = "https://brainly.com.br/tarefa/48483897"
   var question = waitFor getQuestion url
   echo pretty question.toJson
