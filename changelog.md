@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.2.1 (11/16/2021)
+
+- Fixed answer text extraction
+
+---
+
 ## Version 0.2.0 (11/15/2021)
 
 - Added extration to answer attachements

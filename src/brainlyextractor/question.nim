@@ -3,7 +3,7 @@
 from std/httpclient import newAsyncHttpClient, getContent, close, newHttpHeaders
 import std/asyncdispatch
 from std/strutils import parseInt
-from std/xmltree import XmlNode, kind, xnElement
+from std/xmltree import XmlNode, kind, xnElement, items
 
 from pkg/scraper/html import findAll, text, attr, parseHtml
 from pkg/useragent import mozilla
@@ -38,8 +38,7 @@ func extractAnswer(node: XmlNode): Answer =
   result.avatar = data.findAll("img", {"class": "sg-avatar__image"}).attr "src"
   result.author = data.findAll("span", {"class": "sg-hide-for-small-only sg-text--small sg-text sg-text--link sg-text--bold sg-text--black"}).text
   block resp:
-    let el = node.findAll("div", {"class": "sg-text sg-text--break-words brn-rich-content js-answer-content"})[0].
-               findAll "p"
+    let el = node.findAll("div", {"class": "sg-text sg-text--break-words brn-rich-content js-answer-content"})[0]
     for p in el:
       if p.kind != xnElement: continue
       if result.body.len > 0:
@@ -99,6 +98,7 @@ when isMainModule:
   # const url = "https://brainly.com/question/24600056"
   # const url = "https://brainly.com.br/tarefa/36901808"
   # const url = "https://brainly.lat/tarea/56119687"
-  const url = "https://brainly.ro/tema/7413901"
+  # const url = "https://brainly.ro/tema/7413901"
+  const url = "https://brainly.com.br/tarefa/49714712"
   var question = waitFor getQuestion url
   echo pretty question.toJson
