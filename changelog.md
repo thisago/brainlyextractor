@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.3.0 (11/17/2021)
+
+- Fixed comment author extraction
+- Added simple tests
+
+---
+
 ## Version 0.2.2 (11/16/2021)
 
 - Fixed verified answer extraction

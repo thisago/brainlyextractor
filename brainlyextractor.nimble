@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.2.2"
+version       = "0.3.0"
 author        = "Luciano Lorenzo"
 description   = "Brainly data extractor"
 license       = "MIT"

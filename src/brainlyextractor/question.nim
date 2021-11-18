@@ -2,8 +2,9 @@
 
 from std/httpclient import newAsyncHttpClient, getContent, close, newHttpHeaders
 import std/asyncdispatch
-from std/strutils import parseInt, contains
+from std/strutils import parseInt, contains, split
 from std/xmltree import XmlNode, kind, xnElement, items
+from std/base64 import decode
 
 from pkg/scraper/html import findAll, text, attr, parseHtml
 from pkg/useragent import mozilla
@@ -29,11 +30,12 @@ type
 
 func extractComment(node: XmlNode): Comment =
   result.body = node.findAll("div", {"class": "sg-text sg-text--small sg-text--break-words"}).text
-  let img = node.findAll("img", {"class": "sg-avatar__image"})
-  result.author = img.attr "title"
-  result.avatar = img.attr "src"
-
-from std/xmltree import `$`
+  block author:
+    let parts = node.
+      findAll("span", {"class": "sg-text sg-text--blue sg-text--small sg-text--bold sg-text--link"}).
+        attr("data-url-hash").decode.split "/"
+    result.author = parts[^1]
+  result.avatar = node.findAll("img", {"class": "sg-avatar__image"}).attr "src"
 
 func extractAnswer(node: XmlNode): Answer =
   let d = node.findAll("div", @{"class": "brn-qpage-next-answer-box-author"})
