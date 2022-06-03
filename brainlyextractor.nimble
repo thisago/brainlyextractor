@@ -1,7 +1,7 @@
 # Package
 
 version       = "0.3.0"
-author        = "Luciano Lorenzo"
+author        = "Thiago Navarro"
 description   = "Brainly data extractor"
 license       = "MIT"
 srcDir        = "src"

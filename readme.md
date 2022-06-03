@@ -1,5 +1,7 @@
 # brainlyextractor
 
+**NOT WORKING ANYMORE: Needs to bypass Cloudflare**
+
 Extractor for Brainly pages
 
 ## Features
